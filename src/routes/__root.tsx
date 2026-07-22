@@ -17,16 +17,16 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Página não encontrada</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          O caminho que você procura não existe ou foi movido.
         </p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            Voltar ao início
           </Link>
         </div>
       </div>
@@ -45,10 +45,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          Esta página não pôde ser carregada
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Algo saiu do curso. Tente novamente ou retorne ao início.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -58,13 +58,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Try again
+            Tentar novamente
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
-            Go home
+            Voltar ao início
           </a>
         </div>
       </div>
@@ -77,18 +77,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Descubra sua Classe Medieval | RPG de Fantasia" },
-      { name: "description", content: "Just Roll" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Descubra sua Classe Medieval | RPG de Fantasia" },
-      { property: "og:description", content: "Just Roll" },
+      { title: "Círculo do Destino | Descubra seu arquétipo de RPG" },
+      {
+        name: "description",
+        content:
+          "Descubra entre 140 classes, trilhas e linhagens qual arquétipo guiará sua próxima aventura.",
+      },
+      { name: "author", content: "Círculo do Destino" },
+      { property: "og:title", content: "Círculo do Destino | Seu arquétipo de RPG" },
+      {
+        property: "og:description",
+        content: "Um oráculo medieval com 140 destinos cuidadosamente descritos.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Descubra sua Classe Medieval | RPG de Fantasia" },
-      { name: "twitter:description", content: "Just Roll" },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d1684de2-4239-420b-8ea2-df75566cf66c/id-preview-2bf6f473--f53c9d53-0011-48c9-9105-ecf3cd0c5a72.lovable.app-1784727116434.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d1684de2-4239-420b-8ea2-df75566cf66c/id-preview-2bf6f473--f53c9d53-0011-48c9-9105-ecf3cd0c5a72.lovable.app-1784727116434.png" },
+      { name: "twitter:title", content: "Círculo do Destino | Seu arquétipo de RPG" },
+      {
+        name: "twitter:description",
+        content: "Um oráculo medieval com 140 destinos cuidadosamente descritos.",
+      },
     ],
     links: [
       {
@@ -105,7 +112,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>

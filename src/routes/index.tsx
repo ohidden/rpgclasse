@@ -1,27 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useCallback } from "react";
-import classes from "../data/classes.json";
+import {
+  BookOpenText,
+  Dices,
+  RotateCcw,
+  ShieldCheck,
+  Sparkles,
+  Swords,
+  TriangleAlert,
+} from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import heroImage from "../assets/hero.jpg";
+import classes from "../data/classes";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      {
-        title: "Descubra sua Classe Medieval | RPG de Fantasia",
-      },
+      { title: "Círculo do Destino | Descubra seu arquétipo de RPG" },
       {
         name: "description",
         content:
-          "Just Roll",
+          "Role o dado do destino e descubra, entre 140 classes, trilhas e linhagens, qual arquétipo medieval guiará sua próxima aventura.",
       },
       {
         property: "og:title",
-        content: "Descubra sua Classe Medieval | RPG de Fantasia",
+        content: "Círculo do Destino | Seu arquétipo de RPG",
       },
       {
         property: "og:description",
-        content:
-          "Just Roll",
+        content: "Um oráculo medieval com 140 destinos cuidadosamente descritos.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: heroImage },
@@ -32,198 +39,269 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const TOTAL_FACES = classes.length;
-const ROLL_DURATION_MS = 2500;
-const TICK_MS = 80;
+const ROLL_DURATION_MS = 1800;
+const TICK_MS = 72;
+const TOTAL_DESTINIES = classes.length;
+
+function randomIndex(previousIndex: number | null = null) {
+  let nextIndex = Math.floor(Math.random() * TOTAL_DESTINIES);
+
+  while (TOTAL_DESTINIES > 1 && nextIndex === previousIndex) {
+    nextIndex = Math.floor(Math.random() * TOTAL_DESTINIES);
+  }
+
+  return nextIndex;
+}
 
 function Index() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [displayIndex, setDisplayIndex] = useState<number | null>(null);
   const [isRolling, setIsRolling] = useState(false);
-  const [showResult, setShowResult] = useState(false);
+  const [hasRevealed, setHasRevealed] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const resultRef = useRef<HTMLElement | null>(null);
+
+  const stopRollingTimer = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => stopRollingTimer, [stopRollingTimer]);
 
   const roll = useCallback(() => {
     if (isRolling) return;
 
+    stopRollingTimer();
     setIsRolling(true);
-    setShowResult(false);
-    setSelectedIndex(null);
+    setHasRevealed(false);
 
-    let tickCount = 0;
+    const finalIndex = randomIndex(selectedIndex);
     const totalTicks = Math.floor(ROLL_DURATION_MS / TICK_MS);
-    const finalIndex = Math.floor(Math.random() * TOTAL_FACES);
+    let tickCount = 0;
 
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       tickCount += 1;
-      setDisplayIndex(Math.floor(Math.random() * TOTAL_FACES));
+      setDisplayIndex(randomIndex());
 
       if (tickCount >= totalTicks) {
-        clearInterval(interval);
+        stopRollingTimer();
         setDisplayIndex(finalIndex);
         setSelectedIndex(finalIndex);
         setIsRolling(false);
-        setShowResult(true);
+        setHasRevealed(true);
+
+        window.setTimeout(() => {
+          resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+          resultRef.current?.focus({ preventScroll: true });
+        }, 220);
       }
     }, TICK_MS);
-  }, [isRolling]);
+  }, [isRolling, selectedIndex, stopRollingTimer]);
 
-  const selectedClass = selectedIndex !== null ? classes[selectedIndex] : null;
-  const displayClass = displayIndex !== null ? classes[displayIndex] : null;
+  const selectedClass = selectedIndex === null ? null : classes[selectedIndex];
+  const displayClass = displayIndex === null ? null : classes[displayIndex];
+  const storyParagraphs = selectedClass?.descricao.split("\n\n") ?? [];
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden">
-      {/* Hero background */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="Câmara medieval mágica com um dado flutuando"
-          className="h-full w-full object-cover"
-          width={1920}
-          height={1088}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_90%)]" />
+    <div className="site-shell min-h-screen overflow-x-hidden bg-background text-foreground">
+      <a className="skip-link" href="#oraculo">
+        Ir para o oráculo
+      </a>
+
+      <div className="world-backdrop" aria-hidden="true">
+        <img src={heroImage} alt="" width={1920} height={1088} />
+        <div className="world-backdrop__veil" />
+        <div className="world-backdrop__vignette" />
+        <div className="world-backdrop__grain" />
       </div>
 
-      {/* Content */}
-      <main className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 py-16 text-center sm:py-24">
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-background/60 px-4 py-1.5 backdrop-blur-sm">
-          <span className="h-2 w-2 rounded-full bg-gold" />
-          <span className="text-xs font-medium tracking-widest text-gold uppercase">
-            {TOTAL_FACES} classes místicas
-          </span>
-        </div>
-
-        <h1 className="text-glow mb-4 font-serif text-4xl font-bold leading-tight text-foreground sm:text-6xl">
-          Descubra sua classe medieval
-        </h1>
-        <p className="mb-12 max-w-xl text-lg text-muted-foreground sm:text-xl">
-          O destino escolherá seu caminho. Role o dado mágico e revele qual
-          herói você seria em um mundo de RPG de fantasia.
-        </p>
-
-        {/* Dice */}
-        <div className="mb-10 flex flex-col items-center gap-6">
-          <div
-            className={`dice-glow relative flex h-40 w-40 items-center justify-center rounded-3xl border-2 border-gold/60 bg-card/80 backdrop-blur-md transition-transform duration-100 sm:h-52 sm:w-52 ${
-              isRolling ? "animate-dice-shake" : ""
-            }`}
-          >
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-gold/10 via-transparent to-ember/10" />
-            <span className="relative z-10 font-serif text-6xl font-bold text-gold sm:text-7xl">
-              {displayIndex !== null ? displayIndex + 1 : "?"}
+      <header className="relative z-20 border-b border-gold/15">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
+          <a href="#top" className="brand-mark" aria-label="Círculo do Destino — início">
+            <span className="brand-mark__sigil" aria-hidden="true">
+              <Sparkles size={17} strokeWidth={1.6} />
             </span>
+            <span>
+              <strong>Círculo</strong>
+              <small>do destino</small>
+            </span>
+          </a>
+
+          <div className="hidden items-center gap-3 text-xs tracking-[0.22em] text-parchment/60 uppercase sm:flex">
+            <span className="h-px w-9 bg-gold/30" />
+            Edição dos 140 caminhos
           </div>
-
-          <button
-            onClick={roll}
-            disabled={isRolling}
-            className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gold px-8 py-4 font-serif text-lg font-bold text-primary-foreground shadow-lg transition-all hover:scale-[1.02] hover:shadow-gold/25 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-background disabled:opacity-70 disabled:hover:scale-100 sm:px-10 sm:text-xl"
-          >
-            <span className="relative z-10">
-              {isRolling ? "O destino decide..." : "Rolar o dado"}
-            </span>
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform group-hover:translate-x-full" />
-          </button>
         </div>
+      </header>
 
-        {/* Result */}
-        {showResult && selectedClass && (
-          <div className="card-ornament w-full animate-result-in rounded-2xl border border-gold/30 bg-card/80 p-6 shadow-2xl backdrop-blur-md sm:p-10">
-            <div className="mb-4 flex items-center justify-center gap-3">
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-gold/60" />
-              <span className="text-sm font-medium tracking-widest text-gold uppercase">
-                Sua classe é
-              </span>
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-gold/60" />
+      <main id="top" className="relative z-10">
+        <section className="mx-auto grid min-h-[calc(100vh-81px)] w-full max-w-7xl items-center gap-14 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.12fr_0.88fr] lg:gap-20 lg:px-12 lg:py-24">
+          <div className="hero-copy max-w-3xl">
+            <div className="eyebrow">
+              <span aria-hidden="true" />
+              Um oráculo para sua próxima jornada
             </div>
 
-            <h2 className="mb-6 font-serif text-3xl font-bold text-foreground sm:text-5xl">
-              {selectedClass.name}
-            </h2>
+            <h1>
+              O dado conhece a lenda
+              <em> que você ainda não viveu.</em>
+            </h1>
 
-            <div className="relative mx-auto mb-8 max-w-2xl text-left">
-              <p className="mb-6 border-l-2 border-gold/40 pl-5 text-base italic leading-relaxed text-foreground/90 sm:text-lg">
-                {selectedClass.resumo}
-              </p>
-              <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-foreground/80 sm:text-lg">
-                {selectedClass.descricao}
-              </p>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg border border-gold/20 bg-background/40 p-4">
-                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-gold">
-                    Pontos fortes
-                  </h3>
-                  <ul className="list-disc space-y-1 pl-5 text-sm text-foreground/85">
-                    {selectedClass.pontos_fortes.map((p, i) => (
-                      <li key={i}>{p}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="rounded-lg border border-ember/30 bg-background/40 p-4">
-                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-ember">
-                    Pontos fracos
-                  </h3>
-                  <ul className="list-disc space-y-1 pl-5 text-sm text-foreground/85">
-                    {selectedClass.pontos_fracos.map((p, i) => (
-                      <li key={i}>{p}</li>
-                    ))}
-                  </ul>
-                </div>
+            <p className="hero-copy__lead">
+              Entre classes lendárias, trilhas proibidas e linhagens ancestrais, existe um caminho à
+              sua espera. Deixe o acaso escrever o primeiro capítulo.
+            </p>
+
+            <div className="hero-ledger" aria-label="Detalhes do oráculo">
+              <div>
+                <strong>{TOTAL_DESTINIES}</strong>
+                <span>destinos únicos</span>
+              </div>
+              <div>
+                <strong>3</strong>
+                <span>tipos de caminho</span>
+              </div>
+              <div>
+                <strong>∞</strong>
+                <span>histórias possíveis</span>
               </div>
             </div>
-
-            <button
-              onClick={roll}
-              className="inline-flex items-center gap-2 rounded-lg border border-gold/50 bg-transparent px-6 py-3 font-medium text-gold transition-colors hover:bg-gold/10"
-            >
-              <span>Rolar novamente</span>
-            </button>
           </div>
-        )}
 
-        {/* Preview during rolling */}
-        {!showResult && isRolling && displayClass && (
-          <div className="mt-4 text-muted-foreground">
-            <span className="text-sm tracking-wide">O dado passa por...</span>
-            <p className="mt-1 font-serif text-lg text-gold/80">
-              {displayClass.name}
-            </p>
+          <div id="oraculo" className="oracle-wrap scroll-mt-8">
+            <div className="oracle-card" aria-busy={isRolling}>
+              <div className="oracle-card__corner oracle-card__corner--tl" />
+              <div className="oracle-card__corner oracle-card__corner--tr" />
+              <div className="oracle-card__corner oracle-card__corner--bl" />
+              <div className="oracle-card__corner oracle-card__corner--br" />
+
+              <div className="oracle-card__heading">
+                <span>A câmara do destino</span>
+                <i aria-hidden="true" />
+              </div>
+
+              <div className={`d20-stage ${isRolling ? "is-rolling" : ""}`}>
+                <div className="d20-aura" aria-hidden="true" />
+                <div className="d20" aria-hidden="true">
+                  <div className="d20__inner">
+                    <span>{displayIndex === null ? "?" : displayIndex + 1}</span>
+                    <small>d140</small>
+                  </div>
+                </div>
+              </div>
+
+              <div className="min-h-12 text-center" aria-live="polite">
+                {isRolling && displayClass ? (
+                  <div className="rolling-name">
+                    <span>As páginas revelam</span>
+                    <strong>{displayClass.name}</strong>
+                  </div>
+                ) : (
+                  <p className="oracle-instruction">
+                    Um gesto. Um número. Um destino para chamar de seu.
+                  </p>
+                )}
+              </div>
+
+              <button className="destiny-button" type="button" onClick={roll} disabled={isRolling}>
+                <Dices size={21} aria-hidden="true" />
+                <span>{isRolling ? "O destino está em movimento" : "Consultar o destino"}</span>
+              </button>
+
+              <p className="oracle-footnote">
+                <Sparkles size={12} aria-hidden="true" />
+                Cada caminho tem a mesma chance de ser escolhido
+              </p>
+            </div>
           </div>
+        </section>
+
+        {hasRevealed && selectedClass && (
+          <section
+            ref={resultRef}
+            className="revelation-section scroll-mt-8 px-5 pb-20 pt-4 outline-none sm:px-8 sm:pb-28 lg:px-12"
+            tabIndex={-1}
+            aria-label={`Destino revelado: ${selectedClass.name}`}
+          >
+            <article className="revelation mx-auto w-full max-w-6xl">
+              <header className="revelation__header">
+                <div className="revelation__index" aria-hidden="true">
+                  {String(selectedIndex + 1).padStart(3, "0")}
+                </div>
+                <div className="revelation__title">
+                  <div className="result-kicker">
+                    <span>{selectedClass.categoria}</span>
+                    <i />
+                    Seu destino foi selado
+                  </div>
+                  <h2>{selectedClass.name}</h2>
+                </div>
+                <div className="revelation__seal" aria-hidden="true">
+                  <ShieldCheck size={28} strokeWidth={1.35} />
+                </div>
+              </header>
+
+              <div className="revelation__body">
+                <blockquote>{selectedClass.resumo}</blockquote>
+
+                <div className="revelation__grid">
+                  <section className="chronicle-card">
+                    <h3>
+                      <BookOpenText size={18} aria-hidden="true" />
+                      Crônica do arquétipo
+                    </h3>
+                    <div className="chronicle-copy">
+                      {storyParagraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </section>
+
+                  <div className="traits-column">
+                    <section className="trait-card trait-card--strength">
+                      <h3>
+                        <Swords size={17} aria-hidden="true" />
+                        Marcas de excelência
+                      </h3>
+                      <ul>
+                        {selectedClass.pontos_fortes.map((point) => (
+                          <li key={point}>{point}</li>
+                        ))}
+                      </ul>
+                    </section>
+
+                    <section className="trait-card trait-card--weakness">
+                      <h3>
+                        <TriangleAlert size={17} aria-hidden="true" />
+                        Provações do caminho
+                      </h3>
+                      <ul>
+                        {selectedClass.pontos_fracos.map((point) => (
+                          <li key={point}>{point}</li>
+                        ))}
+                      </ul>
+                    </section>
+                  </div>
+                </div>
+
+                <div className="revelation__actions">
+                  <button type="button" onClick={roll} disabled={isRolling}>
+                    <RotateCcw size={16} aria-hidden="true" />
+                    Consultar outro caminho
+                  </button>
+                  <span>Probabilidade: 1 em {TOTAL_DESTINIES}</span>
+                </div>
+              </div>
+            </article>
+          </section>
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 mt-auto py-6 text-center text-sm text-muted-foreground">
-        <p>
-          O destino é uma rolagem de dado. Que a sorte guie sua aventura.
-        </p>
+      <footer className="relative z-10 border-t border-gold/10 px-5 py-7 text-center text-xs tracking-[0.13em] text-parchment/45 uppercase">
+        Toda grande campanha começa com uma escolha — ou com uma rolagem.
       </footer>
-
-      <style>{`
-        @keyframes dice-shake {
-          0%, 100% { transform: rotate(0deg) translate(0, 0); }
-          10% { transform: rotate(-12deg) translate(-4px, -4px); }
-          20% { transform: rotate(10deg) translate(4px, -4px); }
-          30% { transform: rotate(-8deg) translate(-4px, 4px); }
-          40% { transform: rotate(12deg) translate(4px, 4px); }
-          50% { transform: rotate(-6deg) translate(-2px, -2px); }
-          60% { transform: rotate(8deg) translate(2px, -2px); }
-          70% { transform: rotate(-4deg) translate(-2px, 2px); }
-          80% { transform: rotate(6deg) translate(2px, 2px); }
-          90% { transform: rotate(-2deg) translate(0, 0); }
-        }
-        .animate-dice-shake {
-          animation: dice-shake 0.5s ease-in-out infinite;
-        }
-        @keyframes result-in {
-          from { opacity: 0; transform: translateY(20px) scale(0.98); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .animate-result-in {
-          animation: result-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-      `}</style>
     </div>
   );
 }

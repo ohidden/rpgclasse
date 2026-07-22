@@ -4,13 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system: Medieval RPG Fantasy.
- *
- * Theme uses deep twilight blues, aged gold, and ember red accents
- * to evoke torch-lit stone halls, dusty tomes, and magical dice.
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -40,111 +33,1059 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-
-  /* Custom medieval tokens */
   --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
+  --color-gold-bright: var(--gold-bright);
   --color-ember: var(--ember);
   --color-parchment: var(--parchment);
-  --color-stone: var(--stone);
-  --color-shadow: var(--shadow);
+  --color-ink: var(--ink);
 }
 
 :root {
-  --radius: 0.75rem;
-
-  --background: oklch(0.18 0.02 260);
-  --foreground: oklch(0.94 0.01 95);
-
-  --card: oklch(0.22 0.025 260);
-  --card-foreground: oklch(0.94 0.01 95);
-
-  --popover: oklch(0.22 0.025 260);
-  --popover-foreground: oklch(0.94 0.01 95);
-
-  --primary: oklch(0.72 0.15 85);
-  --primary-foreground: oklch(0.18 0.02 260);
-
-  --secondary: oklch(0.28 0.04 250);
-  --secondary-foreground: oklch(0.94 0.01 95);
-
-  --muted: oklch(0.28 0.03 250);
-  --muted-foreground: oklch(0.65 0.03 250);
-
-  --accent: oklch(0.55 0.18 30);
-  --accent-foreground: oklch(0.97 0.01 95);
-
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.97 0.01 95);
-
-  --border: oklch(0.3 0.03 250 / 60%);
-  --input: oklch(0.3 0.03 250 / 60%);
-  --ring: oklch(0.72 0.15 85);
-
-  --chart-1: oklch(0.72 0.15 85);
-  --chart-2: oklch(0.55 0.18 30);
-  --chart-3: oklch(0.65 0.1 250);
-  --chart-4: oklch(0.4 0.12 150);
-  --chart-5: oklch(0.55 0.15 280);
-
-  --sidebar: oklch(0.2 0.02 260);
-  --sidebar-foreground: oklch(0.94 0.01 95);
-  --sidebar-primary: oklch(0.72 0.15 85);
-  --sidebar-primary-foreground: oklch(0.18 0.02 260);
-  --sidebar-accent: oklch(0.28 0.04 250);
-  --sidebar-accent-foreground: oklch(0.94 0.01 95);
-  --sidebar-border: oklch(0.3 0.03 250 / 60%);
-  --sidebar-ring: oklch(0.72 0.15 85);
-
-  --gold: oklch(0.72 0.15 85);
-  --gold-soft: oklch(0.55 0.08 85);
-  --ember: oklch(0.55 0.18 30);
-  --parchment: oklch(0.92 0.03 95);
-  --stone: oklch(0.35 0.03 250);
-  --shadow: oklch(0.12 0.02 260);
+  --radius: 0.55rem;
+  --background: oklch(0.105 0.018 50);
+  --foreground: oklch(0.93 0.025 83);
+  --card: oklch(0.155 0.023 52);
+  --card-foreground: oklch(0.93 0.025 83);
+  --popover: oklch(0.145 0.02 50);
+  --popover-foreground: oklch(0.93 0.025 83);
+  --primary: oklch(0.72 0.125 77);
+  --primary-foreground: oklch(0.12 0.02 51);
+  --secondary: oklch(0.21 0.03 55);
+  --secondary-foreground: oklch(0.91 0.025 83);
+  --muted: oklch(0.2 0.02 54);
+  --muted-foreground: oklch(0.67 0.03 77);
+  --accent: oklch(0.55 0.16 42);
+  --accent-foreground: oklch(0.96 0.02 85);
+  --destructive: oklch(0.51 0.19 28);
+  --destructive-foreground: oklch(0.97 0.01 85);
+  --border: oklch(0.45 0.06 72 / 30%);
+  --input: oklch(0.45 0.06 72 / 30%);
+  --ring: oklch(0.73 0.125 77);
+  --gold: oklch(0.72 0.125 77);
+  --gold-bright: oklch(0.84 0.12 83);
+  --ember: oklch(0.57 0.15 43);
+  --parchment: oklch(0.91 0.045 83);
+  --ink: oklch(0.16 0.026 52);
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--background);
+    scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    min-width: 320px;
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 42%, transparent);
+    color: var(--parchment);
   }
 }
 
-@layer utilities {
-  .text-glow {
-    text-shadow: 0 0 20px color-mix(in oklab, var(--gold) 40%, transparent),
-      0 0 40px color-mix(in oklab, var(--gold) 20%, transparent);
+@layer components {
+  .site-shell {
+    position: relative;
+    isolation: isolate;
   }
 
-  .dice-glow {
-    box-shadow: 0 0 30px color-mix(in oklab, var(--gold) 35%, transparent),
-      0 0 60px color-mix(in oklab, var(--gold) 20%, transparent),
-      inset 0 0 20px color-mix(in oklab, var(--gold) 25%, transparent);
+  .skip-link {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    transform: translateY(-180%);
+    border: 1px solid var(--gold);
+    border-radius: 0.35rem;
+    background: var(--ink);
+    padding: 0.7rem 1rem;
+    color: var(--parchment);
+    transition: transform 160ms ease;
   }
 
-  .card-ornament {
-    background-image: radial-gradient(
-      circle at 50% 0,
-      color-mix(in oklab, var(--gold) 20%, transparent),
-      transparent 60%
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  .world-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    background: #130f0c;
+  }
+
+  .world-backdrop img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 52% center;
+    filter: saturate(0.82) contrast(1.08) brightness(0.72);
+    transform: scale(1.015);
+  }
+
+  .world-backdrop__veil,
+  .world-backdrop__vignette,
+  .world-backdrop__grain {
+    position: absolute;
+    inset: 0;
+  }
+
+  .world-backdrop__veil {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(12, 9, 7, 0.96) 0%,
+        rgba(12, 9, 7, 0.8) 38%,
+        rgba(12, 9, 7, 0.42) 69%,
+        rgba(12, 9, 7, 0.78) 100%
+      ),
+      linear-gradient(180deg, rgba(9, 7, 5, 0.4), rgba(9, 7, 5, 0.1) 50%, rgba(9, 7, 5, 0.96));
+  }
+
+  .world-backdrop__vignette {
+    box-shadow: inset 0 0 16vw 5vw rgba(0, 0, 0, 0.8);
+  }
+
+  .world-backdrop__grain {
+    opacity: 0.13;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  }
+
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--parchment);
+    text-decoration: none;
+  }
+
+  .brand-mark__sigil {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    place-items: center;
+    transform: rotate(45deg);
+    border: 1px solid color-mix(in oklab, var(--gold) 68%, transparent);
+    background: color-mix(in oklab, var(--background) 72%, transparent);
+    box-shadow: inset 0 0 0 3px color-mix(in oklab, var(--gold) 7%, transparent);
+    color: var(--gold-bright);
+  }
+
+  .brand-mark__sigil svg {
+    transform: rotate(-45deg);
+  }
+
+  .brand-mark > span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .brand-mark strong {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .brand-mark small {
+    margin-top: 0.3rem;
+    color: color-mix(in oklab, var(--gold) 77%, white);
+    font-size: 0.58rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+  }
+
+  .hero-copy {
+    animation: hero-rise 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.6rem;
+    color: var(--gold-bright);
+    font-size: 0.69rem;
+    font-weight: 650;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow span {
+    width: 2.25rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+
+  .hero-copy h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(3.2rem, 7.1vw, 6.8rem);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 0.94;
+    text-wrap: balance;
+    text-shadow: 0 3px 32px rgba(0, 0, 0, 0.64);
+  }
+
+  .hero-copy h1 em {
+    display: block;
+    margin-top: 0.16em;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+
+  .hero-copy__lead {
+    max-width: 38rem;
+    margin: 2rem 0 0;
+    color: color-mix(in oklab, var(--parchment) 72%, transparent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.02rem, 1.7vw, 1.25rem);
+    line-height: 1.72;
+  }
+
+  .hero-ledger {
+    display: grid;
+    max-width: 38rem;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 2.5rem;
+    border-block: 1px solid color-mix(in oklab, var(--gold) 24%, transparent);
+  }
+
+  .hero-ledger div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+    padding: 1.05rem 1rem;
+  }
+
+  .hero-ledger div + div {
+    border-left: 1px solid color-mix(in oklab, var(--gold) 18%, transparent);
+  }
+
+  .hero-ledger strong {
+    color: var(--parchment);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.32rem;
+    font-weight: 500;
+  }
+
+  .hero-ledger span {
+    color: color-mix(in oklab, var(--parchment) 48%, transparent);
+    font-size: 0.63rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .oracle-wrap {
+    display: flex;
+    justify-content: center;
+    animation: oracle-rise 900ms 130ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .oracle-card {
+    position: relative;
+    width: min(100%, 29rem);
+    overflow: hidden;
+    border: 1px solid color-mix(in oklab, var(--gold) 42%, transparent);
+    border-radius: 0.7rem;
+    background:
+      linear-gradient(145deg, rgba(43, 30, 20, 0.92), rgba(17, 14, 12, 0.96)), var(--card);
+    padding: clamp(1.6rem, 5vw, 2.45rem);
+    box-shadow:
+      0 35px 80px rgba(0, 0, 0, 0.5),
+      inset 0 0 0 4px rgba(205, 152, 64, 0.035),
+      inset 0 1px rgba(255, 225, 158, 0.12);
+    backdrop-filter: blur(20px);
+  }
+
+  .oracle-card::before {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 34%, rgba(211, 161, 72, 0.15), transparent 35%),
+      repeating-linear-gradient(118deg, transparent 0 12px, rgba(255, 255, 255, 0.01) 12px 13px);
+    content: "";
+  }
+
+  .oracle-card__corner {
+    position: absolute;
+    z-index: 2;
+    width: 2rem;
+    height: 2rem;
+    border-color: color-mix(in oklab, var(--gold) 65%, transparent);
+  }
+
+  .oracle-card__corner--tl {
+    top: 0.7rem;
+    left: 0.7rem;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+
+  .oracle-card__corner--tr {
+    top: 0.7rem;
+    right: 0.7rem;
+    border-top: 1px solid;
+    border-right: 1px solid;
+  }
+
+  .oracle-card__corner--bl {
+    bottom: 0.7rem;
+    left: 0.7rem;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+  }
+
+  .oracle-card__corner--br {
+    right: 0.7rem;
+    bottom: 0.7rem;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+  }
+
+  .oracle-card__heading {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    justify-content: center;
+    color: color-mix(in oklab, var(--parchment) 62%, transparent);
+    font-size: 0.64rem;
+    font-weight: 650;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .oracle-card__heading::before,
+  .oracle-card__heading::after {
+    width: 2.8rem;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--gold) 48%, transparent)
     );
+    content: "";
+  }
+
+  .oracle-card__heading::after {
+    transform: rotate(180deg);
+  }
+
+  .oracle-card__heading i {
+    position: absolute;
+    top: 1.3rem;
+    left: 50%;
+    width: 0.34rem;
+    height: 0.34rem;
+    transform: translateX(-50%) rotate(45deg);
+    background: var(--gold);
+    box-shadow: 0 0 12px var(--gold);
+  }
+
+  .d20-stage {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    min-height: 16.5rem;
+    place-items: center;
+  }
+
+  .d20-aura {
+    position: absolute;
+    width: 14rem;
+    height: 14rem;
+    border: 1px solid color-mix(in oklab, var(--gold) 13%, transparent);
+    border-radius: 999px;
+    box-shadow:
+      0 0 0 1.7rem color-mix(in oklab, var(--gold) 2.5%, transparent),
+      0 0 0 3.8rem color-mix(in oklab, var(--gold) 1.5%, transparent);
+  }
+
+  .d20-aura::before,
+  .d20-aura::after {
+    position: absolute;
+    background: color-mix(in oklab, var(--gold) 20%, transparent);
+    content: "";
+  }
+
+  .d20-aura::before {
+    top: 50%;
+    left: -2rem;
+    width: calc(100% + 4rem);
+    height: 1px;
+  }
+
+  .d20-aura::after {
+    top: -2rem;
+    left: 50%;
+    width: 1px;
+    height: calc(100% + 4rem);
+  }
+
+  .d20 {
+    position: relative;
+    width: 10.7rem;
+    height: 11.8rem;
+    clip-path: polygon(50% 0%, 94% 25%, 87% 75%, 50% 100%, 13% 75%, 6% 25%);
+    background: linear-gradient(145deg, var(--gold-bright), #785025 45%, #d7a952 75%, #4c3017);
+    filter: drop-shadow(0 20px 18px rgba(0, 0, 0, 0.48));
+    transition:
+      transform 220ms ease,
+      filter 220ms ease;
+  }
+
+  .d20::before {
+    position: absolute;
+    inset: 2px;
+    clip-path: inherit;
+    background:
+      linear-gradient(32deg, transparent 49.5%, rgba(211, 169, 88, 0.46) 50%, transparent 50.8%),
+      linear-gradient(-32deg, transparent 49.5%, rgba(211, 169, 88, 0.42) 50%, transparent 50.8%),
+      linear-gradient(90deg, rgba(18, 15, 14, 0.98), rgba(40, 29, 22, 0.96));
+    content: "";
+  }
+
+  .d20::after {
+    position: absolute;
+    inset: 16% 18%;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+    background: radial-gradient(circle at 50% 58%, rgba(211, 161, 72, 0.16), transparent 62%);
+    content: "";
+  }
+
+  .d20__inner {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.3rem;
+  }
+
+  .d20__inner span {
+    color: var(--gold-bright);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 3.25rem;
+    font-weight: 500;
+    line-height: 1;
+    text-shadow: 0 0 22px color-mix(in oklab, var(--gold) 45%, transparent);
+  }
+
+  .d20__inner small {
+    margin-top: 0.3rem;
+    color: color-mix(in oklab, var(--parchment) 38%, transparent);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .d20-stage.is-rolling .d20 {
+    animation: d20-roll 480ms ease-in-out infinite;
+    filter: drop-shadow(0 20px 24px rgba(200, 139, 48, 0.35));
+  }
+
+  .d20-stage.is-rolling .d20-aura {
+    animation: aura-pulse 900ms ease-in-out infinite;
+  }
+
+  .oracle-instruction {
+    position: relative;
+    z-index: 1;
+    max-width: 19rem;
+    margin: 0 auto;
+    color: color-mix(in oklab, var(--parchment) 54%, transparent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.92rem;
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .rolling-name {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .rolling-name span {
+    color: color-mix(in oklab, var(--parchment) 42%, transparent);
+    font-size: 0.56rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .rolling-name strong {
+    overflow: hidden;
+    color: var(--gold-bright);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.08rem;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .destiny-button {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    min-height: 3.6rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-top: 1.3rem;
+    border: 1px solid color-mix(in oklab, var(--gold-bright) 68%, transparent);
+    border-radius: 0.3rem;
+    background: linear-gradient(180deg, #d6a84c, #aa722c);
+    box-shadow:
+      inset 0 1px rgba(255, 243, 196, 0.48),
+      0 10px 30px rgba(122, 72, 17, 0.24);
+    color: #21160d;
+    cursor: pointer;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      filter 180ms ease;
+  }
+
+  .destiny-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px rgba(255, 243, 196, 0.52),
+      0 15px 36px rgba(168, 105, 25, 0.34);
+    filter: brightness(1.06);
+  }
+
+  .destiny-button:focus-visible,
+  .revelation__actions button:focus-visible,
+  .brand-mark:focus-visible {
+    outline: 2px solid var(--gold-bright);
+    outline-offset: 4px;
+  }
+
+  .destiny-button:disabled {
+    cursor: wait;
+    filter: saturate(0.6) brightness(0.8);
+  }
+
+  .oracle-footnote {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 1.1rem 0 0;
+    color: color-mix(in oklab, var(--parchment) 32%, transparent);
+    font-size: 0.57rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .revelation-section {
+    position: relative;
+  }
+
+  .revelation-section::before {
+    position: absolute;
+    inset: 8% 0 0;
+    z-index: -1;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(10, 8, 6, 0.88) 22%,
+      rgba(10, 8, 6, 0.97)
+    );
+    content: "";
+  }
+
+  .revelation {
+    overflow: hidden;
+    border: 1px solid color-mix(in oklab, var(--gold) 32%, transparent);
+    border-radius: 0.75rem;
+    background: rgba(20, 16, 13, 0.94);
+    box-shadow: 0 42px 100px rgba(0, 0, 0, 0.5);
+    animation: reveal-rise 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .revelation__header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.2rem);
+    border-bottom: 1px solid color-mix(in oklab, var(--gold) 24%, transparent);
+    background:
+      linear-gradient(105deg, rgba(75, 47, 24, 0.52), transparent 52%), rgba(43, 29, 19, 0.42);
+    padding: clamp(1.4rem, 4vw, 2.6rem);
+  }
+
+  .revelation__index {
+    color: color-mix(in oklab, var(--gold) 36%, transparent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.8rem, 7vw, 5.7rem);
+    line-height: 0.8;
+  }
+
+  .result-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: color-mix(in oklab, var(--parchment) 52%, transparent);
+    font-size: 0.61rem;
+    font-weight: 650;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .result-kicker span {
+    color: var(--gold-bright);
+  }
+
+  .result-kicker i {
+    width: 3px;
+    height: 3px;
+    transform: rotate(45deg);
+    background: var(--gold);
+  }
+
+  .revelation__title h2 {
+    margin: 0.38rem 0 0;
+    color: var(--parchment);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.2rem, 5vw, 4.2rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+
+  .revelation__seal {
+    display: grid;
+    width: 4rem;
+    height: 4rem;
+    place-items: center;
+    transform: rotate(45deg);
+    border: 1px solid color-mix(in oklab, var(--gold) 44%, transparent);
+    color: var(--gold);
+  }
+
+  .revelation__seal svg {
+    transform: rotate(-45deg);
+  }
+
+  .revelation__body {
+    padding: clamp(1.5rem, 4vw, 3.1rem);
+  }
+
+  .revelation blockquote {
+    position: relative;
+    max-width: 57rem;
+    margin: 0;
+    padding-left: 1.5rem;
+    color: color-mix(in oklab, var(--parchment) 88%, transparent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.16rem, 2.2vw, 1.5rem);
+    font-style: italic;
+    line-height: 1.58;
+  }
+
+  .revelation blockquote::before {
+    position: absolute;
+    top: 0.15rem;
+    bottom: 0.15rem;
+    left: 0;
+    width: 2px;
+    background: linear-gradient(
+      var(--gold-bright),
+      color-mix(in oklab, var(--gold) 16%, transparent)
+    );
+    content: "";
+  }
+
+  .revelation__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(19rem, 0.75fr);
+    gap: 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .chronicle-card,
+  .trait-card {
+    border: 1px solid color-mix(in oklab, var(--gold) 18%, transparent);
+    border-radius: 0.45rem;
+    background: rgba(255, 242, 209, 0.025);
+  }
+
+  .chronicle-card {
+    padding: clamp(1.3rem, 3vw, 2rem);
+  }
+
+  .chronicle-card h3,
+  .trait-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    color: var(--gold-bright);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .chronicle-copy {
+    margin-top: 1.35rem;
+  }
+
+  .chronicle-copy p {
+    margin: 0;
+    color: color-mix(in oklab, var(--parchment) 67%, transparent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.03rem;
+    line-height: 1.78;
+  }
+
+  .chronicle-copy p + p {
+    margin-top: 1rem;
+  }
+
+  .traits-column {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  .trait-card {
+    position: relative;
+    overflow: hidden;
+    padding: 1.3rem;
+  }
+
+  .trait-card::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    content: "";
+  }
+
+  .trait-card--strength::after {
+    background: #9cae6b;
+  }
+
+  .trait-card--weakness::after {
+    background: #b56d58;
+  }
+
+  .trait-card--strength h3 {
+    color: #becd8c;
+  }
+
+  .trait-card--weakness h3 {
+    color: #d28b72;
+  }
+
+  .trait-card ul {
+    display: grid;
+    gap: 0.62rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .trait-card li {
+    position: relative;
+    padding-left: 1rem;
+    color: color-mix(in oklab, var(--parchment) 63%, transparent);
+    font-size: 0.84rem;
+    line-height: 1.52;
+  }
+
+  .trait-card li::before {
+    position: absolute;
+    top: 0.58em;
+    left: 0;
+    width: 0.3rem;
+    height: 0.3rem;
+    transform: rotate(45deg);
+    background: currentColor;
+    content: "";
+    opacity: 0.48;
+  }
+
+  .revelation__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.6rem;
+  }
+
+  .revelation__actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid color-mix(in oklab, var(--gold) 46%, transparent);
+    border-radius: 0.28rem;
+    background: color-mix(in oklab, var(--gold) 7%, transparent);
+    padding: 0.72rem 1rem;
+    color: var(--gold-bright);
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 650;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transition:
+      background 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .revelation__actions button:hover {
+    border-color: var(--gold);
+    background: color-mix(in oklab, var(--gold) 13%, transparent);
+  }
+
+  .revelation__actions span {
+    color: color-mix(in oklab, var(--parchment) 34%, transparent);
+    font-size: 0.62rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes oracle-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes d20-roll {
+  0%,
+  100% {
+    transform: rotate(-3deg) translateY(0) scale(1);
+  }
+  30% {
+    transform: rotate(5deg) translateY(-8px) scale(1.035);
+  }
+  65% {
+    transform: rotate(-5deg) translateY(4px) scale(0.98);
+  }
+}
+
+@keyframes aura-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.96) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) rotate(10deg);
+  }
+}
+
+@media (max-width: 1023px) {
+  .world-backdrop img {
+    object-position: 56% center;
+  }
+
+  .world-backdrop__veil {
+    background:
+      linear-gradient(180deg, rgba(11, 8, 6, 0.7), rgba(11, 8, 6, 0.9) 54%, rgba(11, 8, 6, 0.98)),
+      linear-gradient(90deg, rgba(11, 8, 6, 0.74), rgba(11, 8, 6, 0.3), rgba(11, 8, 6, 0.7));
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .hero-copy h1,
+  .hero-copy__lead,
+  .hero-ledger {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .eyebrow {
+    justify-content: center;
+  }
+
+  .revelation__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .traits-column {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .hero-copy h1 {
+    font-size: clamp(3rem, 16vw, 4.8rem);
+  }
+
+  .hero-copy__lead {
+    line-height: 1.62;
+  }
+
+  .hero-ledger div {
+    padding: 0.9rem 0.35rem;
+  }
+
+  .hero-ledger span {
+    font-size: 0.54rem;
+    letter-spacing: 0.08em;
+  }
+
+  .oracle-card {
+    padding: 1.5rem 1.15rem;
+  }
+
+  .d20-stage {
+    min-height: 15rem;
+  }
+
+  .d20 {
+    width: 9.5rem;
+    height: 10.5rem;
+  }
+
+  .d20-aura {
+    width: 12.4rem;
+    height: 12.4rem;
+  }
+
+  .destiny-button {
+    font-size: 0.78rem;
+    letter-spacing: 0.07em;
+  }
+
+  .oracle-footnote {
+    font-size: 0.5rem;
+    letter-spacing: 0.06em;
+  }
+
+  .revelation__header {
+    grid-template-columns: auto 1fr;
+  }
+
+  .revelation__seal {
+    display: none;
+  }
+
+  .revelation__index {
+    font-size: 2.6rem;
+  }
+
+  .result-kicker {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    letter-spacing: 0.11em;
+  }
+
+  .traits-column {
+    grid-template-columns: 1fr;
+  }
+
+  .revelation__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .revelation__actions button {
+    justify-content: center;
+  }
+
+  .revelation__actions span {
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
