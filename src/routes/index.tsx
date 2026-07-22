@@ -143,9 +143,34 @@ function Index() {
             </h2>
 
             <div className="relative mx-auto mb-8 max-w-2xl text-left">
-              <p className="border-l-2 border-gold/40 pl-5 text-base leading-relaxed text-foreground/90 sm:text-lg">
-                {selectedClass.description}
+              <p className="mb-6 border-l-2 border-gold/40 pl-5 text-base italic leading-relaxed text-foreground/90 sm:text-lg">
+                {selectedClass.resumo}
               </p>
+              <p className="mb-6 whitespace-pre-line text-base leading-relaxed text-foreground/80 sm:text-lg">
+                {selectedClass.descricao}
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-lg border border-gold/20 bg-background/40 p-4">
+                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-gold">
+                    Pontos fortes
+                  </h3>
+                  <ul className="list-disc space-y-1 pl-5 text-sm text-foreground/85">
+                    {selectedClass.pontos_fortes.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-lg border border-ember/30 bg-background/40 p-4">
+                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-widest text-ember">
+                    Pontos fracos
+                  </h3>
+                  <ul className="list-disc space-y-1 pl-5 text-sm text-foreground/85">
+                    {selectedClass.pontos_fracos.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
 
             <button
