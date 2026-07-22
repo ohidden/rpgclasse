@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Rogue um dado mágico e descubra qual classe você seria em um mundo de RPG medieval. Magos, guerreiros, druidas, paladinos e muito mais.",
+          "Just Roll",
       },
       {
         property: "og:title",
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Rogue um dado mágico e descubra qual classe você seria em um mundo de RPG medieval.",
+          "Just Roll",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: heroImage },
